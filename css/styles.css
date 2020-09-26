@@ -1,0 +1,36 @@
+
+body{
+  margin: 0;
+  text-align: center;
+  font-family: 'Lora', serif;
+}
+h1{
+  margin: 0;
+}
+#heading{
+  font-family: 'Dawning of a New Day', cursive;
+  font-size: 50px;
+}
+#one_setence_des{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  margin-top: 10px;
+}
+.top_container{
+
+  background-color: #a3d2ca;
+  position: relative;
+  padding-top: 100px;
+
+}
+.top_cloud{
+  position: absolute;
+  right: 300px;
+  top:50px;
+
+}
+.bottom_cloud{
+  position: absolute;
+  left: 300px;
+  bottom: 300px;
+}

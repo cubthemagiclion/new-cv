@@ -1,0 +1,180 @@
+<html>
+<head>
+	<style media="screen">
+		body{
+			margin: 0px;
+		}
+	</style>
+</head>
+<canvas id="gameCanvas" width="800" height="600"></canvas><!--id will be used in javascript later -->
+
+<script>
+	var canvas;
+	var canvasContext;
+	var ballX=50;
+	var ballSpeedX = 10;
+	var ballY=10;
+	var ballSpeedY = 4;
+	var paddle1Y = 250;
+	var paddle2Y = 250;
+	var player1Score = 0;
+	var player2Score = 0;
+	var ShowingWinScreen = false;
+
+	const WIN_SCORE = 1;
+	const PADDLE_HEIGHT = 100;
+	const PADDLE_THICKNESS = 15;
+
+	function calculateMousePos(evt){
+		var rect = canvas.getBoundingClientRect();
+		var root = document.documentElement;
+		var mouseX = evt.clientX - rect.left - root. scrollLeft;
+		var mouseY = evt.clientY - rect.top - root.scrollTop;
+		return{
+			x:mouseX,
+			y:mouseY
+		};
+	}
+	function handleMouseClick(evt){
+		if(ShowingWinScreen){
+			player1Score=0;
+			player2Score=0;
+			ShowingWinScreen=false;
+		}
+	}
+
+
+	window.onload = function(){//window.onload means execute this function when the window finish loading.
+
+		canvas = document.getElementById('gameCanvas');
+		canvasContext = canvas.getContext('2d');
+		canvasContext.font ="20px Verdana";
+
+		var framesPerSecond = 35;//temporary variable inside the function
+		setInterval(callBoth,1000/framesPerSecond);//1000 is the milisecond we want to wait before each function is called. this happensa after the page is loaded.
+		// or for the same thing you can do it inline style.
+		/*
+		setInterval(function(){moveEverything();drawEverything();},1000/framesPerSecond);
+		*/
+		canvas.addEventListener('mousedown',handleMouseClick);
+
+
+		canvas.addEventListener('mousemove',function(evt){
+			var mousePos = calculateMousePos(evt);
+			paddle1Y = mousePos.y-(PADDLE_HEIGHT/2);
+		})
+
+
+	}
+	function callBoth(){
+		moveEverything();
+		drawEverything();
+	}
+
+	function ballRest(){
+		if(player1Score>= WIN_SCORE || player2Score>=WIN_SCORE){
+			ShowingWinScreen = true;
+		}
+		ballX = canvas.width/2;
+		ballY = canvas.height/2;
+		ballSpeedY = 4;
+		ballSpeedX = 10;
+	}
+	function computerMove(){
+		var paddle2YCenter = paddle2Y+(PADDLE_HEIGHT/2);
+		if(paddle2YCenter<ballY-30){
+			paddle2Y += 4;
+		}else if(paddle2YCenter > ballY + 30){
+			paddle2Y -= 4;
+		}
+
+	}
+	function moveEverything(){
+		if(ShowingWinScreen){
+			return;
+		}
+		computerMove();
+		ballX += ballSpeedX;
+		ballY -= ballSpeedY;
+		//ballSpeedX = ballSpeedX+1;//accelrate
+		if(ballX<(PADDLE_THICKNESS)){
+			if(ballY>(paddle1Y-10)&&ballY<(paddle1Y+PADDLE_HEIGHT+10)){
+				ballSpeedX = -ballSpeedX;
+				var deltaY = ballY - (paddle1Y+PADDLE_HEIGHT/2);
+				ballSpeedY = deltaY*0.35;
+			}else{
+				player2Score++;
+				ballRest();
+
+			}
+		}
+		if(ballX>canvas.width-(PADDLE_THICKNESS)){
+			if(ballY>(paddle2Y-10)&&ballY<(paddle2Y+PADDLE_HEIGHT+10)){
+				ballSpeedX = -ballSpeedX;
+				var deltaY = ballY - (paddle2Y+PADDLE_HEIGHT/2);
+				ballSpeedY = deltaY*0.35;
+			}else{
+				player1Score++;
+				ballRest();
+
+			}
+		}
+		if(ballY>canvas.height||ballY<0){
+			ballSpeedY = -ballSpeedY;
+		}
+	}
+
+	function drawNet(){
+		for(var i=7;i<canvas.height;i+=40){
+			colorRect((canvas.width/2-1),i,2,22,'#FFE4E1');
+		}
+
+	}
+
+	function drawEverything(){
+		if(ShowingWinScreen){
+			if(player1Score>= WIN_SCORE){
+				colorRect(300,200,200,100,'#FAF0E6');
+				canvasContext.fillStyle='#FFB6C1';
+				canvasContext.font="20px Verdana";
+				canvasContext.fillText("Left Player Won!",310,250);
+			}else if(player2Score>=WIN_SCORE){
+				colorRect(290,215,220,100,'#FAF0E6');
+				canvasContext.fillStyle='#FFB6C1';
+				canvasContext.font="20px Verdana";
+				canvasContext.fillText("Right Player Won!",310,250);
+			}
+			canvasContext.fillStyle='#FFB6C1';
+			canvasContext.font="10px Verdana";
+			canvasContext.fillText("Click to Continue! ",355,285);
+			return;
+		}
+
+		colorRect(0,0,canvas.width,canvas.height,'black');//draw background
+		drawNet();
+		colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'FFE4E1');
+		colorRect(canvas.width-PADDLE_THICKNESS,
+				  paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,
+				  'FFE4E1');
+		colorCircle(ballX,ballY,10,'FFE4E1');
+		canvasContext.fillText("score: "+player1Score,100,100);
+		canvasContext.fillText("score: "+player2Score,canvas.width-175,100);
+}
+
+	function colorCircle(centerX, centerY, radius, drawColor){
+		canvasContext.fillStyle=drawColor;
+		canvasContext.beginPath();
+		canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);//3rd argument is the radius; 4th is the angle
+		canvasContext.fill();//we called begin path because there is no cricle fill not like we have rectfill
+
+	}
+
+	function colorRect(leftX, topY, width, height,drawColor){
+		canvasContext.fillStyle =drawColor;
+		canvasContext.fillRect(leftX,topY,width,height);//first zer: how many from the left
+		//second zero: how many from the top
+
+	}
+</script>
+
+</html>
