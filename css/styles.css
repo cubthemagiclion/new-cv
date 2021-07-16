@@ -10,6 +10,15 @@ h1{
 p{
   line-height:1.7;
 }
+a{
+  color:#0a7579;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-decoration: none;
+}
+a:hover{
+  color:white;
+}
 hr {
   border: dotted #EAF6F6 6px;
   border-bottom: none;
@@ -122,4 +131,8 @@ hr {
   background-color: #71C8B1;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+.copyright{
+  color:#ddf9f2;
+  font-size: smaller;
 }
