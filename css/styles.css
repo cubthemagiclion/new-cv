@@ -23,6 +23,12 @@ h1{
   padding-top: 100px;
 
 }
+.middle_container{
+  padding-top: 50px;
+}
+.profile{
+  padding-top: 30px;
+}
 .top_cloud{
   position: absolute;
   right: 300px;
@@ -33,4 +39,18 @@ h1{
   position: absolute;
   left: 300px;
   bottom: 300px;
+}
+.skill-row{
+  width: 50%;
+  margin: 20px auto 100px auto;
+  text-align: left;
+  line-height: 1.7;
+}
+.web-development-img{
+  width: 30%;
+  float: left;
+  padding-right: 30px;
+}
+.game-img{
+  width: 30%;
 }
