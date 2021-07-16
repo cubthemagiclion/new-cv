@@ -81,10 +81,11 @@ hr {
   margin-right: 30px;
 }
 .game-img{
-  margin-top: 10px;
+  margin-top: 40px;
   width: 25%;
   float: right;
   margin-left: 30px;
+  margin-bottom: 30px;
     /* float is what we use to make the text and the image to be on same line. we can also use 
   clear: left which is like of like the opposite of this float function*/ 
 }
@@ -135,4 +136,6 @@ hr {
 .copyright{
   color:#ddf9f2;
   font-size: smaller;
+  padding-bottom: 0px;
+  padding-top:20px;
 }
